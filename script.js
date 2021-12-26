@@ -23,16 +23,26 @@ function userInput() {
 // calculates if the user or the computer has one 
 function calcWinner(choice1, choice2) {
     if (choice1 === "rock" && choice2 === "scissors") {
-        return true;
+        return "win";
     } 
     else if (choice1 === "paper" && choice2 === "rock") {
-        return true;
+        return "win";
     }
     else if (choice1 === "scissors" && choice2 === "paper") {
-        return true;
+        return "win";
+    }
+    else if (choice1 === "rock" && choice2 === "rock") {
+        return "draw";
+    } 
+    else if (choice1 === "paper" && choice2 === "paper") {
+        return "draw";
+    }
+    else if (choice1 === "scissors" && choice2 === "scissors") {
+        return "draw";
     }
 
-    return false;
+
+    return "loss";
 }
 
 
@@ -42,14 +52,19 @@ function playRound() {
     const computerChoice = computerPlay();
     const userChoice = userInput();
     let winner;
+    checkWin = calcWinner(computerChoice, userChoice);
 
-    if (calcWinner(computerChoice, userChoice)) {
-        winner = "Computer";
-    } else {
-        winner = "User";
+    if (checkWin === "win") {
+        winner = "Computer wins";
+    } 
+    else if (checkWin === "draw") {
+        winner = "draw";
+    }
+    else {
+        winner = "User wins";
     }
 
-    return `User : ${userChoice}\nComputer : ${computerChoice}\n${winner} wins`;
+    return `User : ${userChoice}\nComputer : ${computerChoice}\n${winner}`;
 }
 
 function game() {
