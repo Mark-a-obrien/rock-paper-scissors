@@ -45,30 +45,61 @@ function calcWinner(choice1, choice2) {
     return "loss";
 }
 
+let computerChoice;
+let userChoice;
 
 // plays a single round of rock, paper, scissor using input from the user and output from computerPlay function
 function playRound() {
 
-    const computerChoice = computerPlay();
-    const userChoice = userInput();
+    computerChoice = computerPlay();
+    userChoice = userInput();
+
     let winner;
     checkWin = calcWinner(computerChoice, userChoice);
 
     if (checkWin === "win") {
-        winner = "Computer wins";
+        winner = "computer";
     } 
     else if (checkWin === "draw") {
         winner = "draw";
     }
     else {
-        winner = "User wins";
+        winner = "user";
     }
 
-    return `User : ${userChoice}\nComputer : ${computerChoice}\n${winner}`;
+    return winner;
 }
 
 function game() {
-    for (let i = 0; i<= 5; i++) {
-        console.log(playRound());
+    let userScore = 0;
+    let computerScore = 0;
+    let winner;
+    let running = true;
+
+    // adds to the computer or users scored when they win a round
+    while (running){
+        winner = playRound();
+        if (winner === "user") {
+            ++userScore;    
+        } else if (winner === "computer") {
+            ++computerScore;
+        }
+
+        if (winner === "user" || (winner === "computer"))
+            winner += " wins";
+        
+        console.log(`User : ${userChoice}\nComputer : ${computerChoice}\n${winner}`);
+        console.log(`User score : ${userScore}\nComputer score: ${computerScore}`)
+
+        if (userScore >= 5 || computerScore >= 5){
+            running = false;
+        }
+
+    }
+
+    if (userScore > computerScore) {
+        console.log("****User wins!****");
+    } else {
+        console.log("****Computer wins****");
     }
 }
