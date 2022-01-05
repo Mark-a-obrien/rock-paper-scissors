@@ -49,10 +49,10 @@ let computerChoice;
 let userChoice;
 
 // plays a single round of rock, paper, scissor using input from the user and output from computerPlay function
-function playRound() {
+function playRound(userChoice) {
 
     computerChoice = computerPlay();
-    userChoice = userInput();
+    //userChoice = userInput();
 
     let winner;
     checkWin = calcWinner(computerChoice, userChoice);
@@ -70,36 +70,70 @@ function playRound() {
     return winner;
 }
 
-function game() {
-    let userScore = 0;
-    let computerScore = 0;
+let userScore = 0;
+let computerScore = 0;
+function game(uChoice) {
+
+    
+    if (userScore === 5 || computerScore === 5)
+        return;
+
     let winner;
-    let running = true;
 
-    // adds to the computer or users scored when they win a round
-    while (running){
-        winner = playRound();
-        if (winner === "user") {
-            ++userScore;    
-        } else if (winner === "computer") {
-            ++computerScore;
-        }
+    // adds to the computer or users score when they win a round
+    winner = playRound(uChoice);
+    if (winner === "user") {
+        ++userScore;    
+    } else if (winner === "computer") {
+        ++computerScore;
+    }
+    
 
-        if (winner === "user" || (winner === "computer"))
-            winner += " wins";
+    // creates an element for the users choice & score and computers choice & score
+
+    let results = document.querySelector("#results");
+
+    let userChoiceElement = document.getElementById("userChoice");
+    let computerChoiceElement = document.getElementById("computerChoice");
+
+    userChoiceElement.textContent = `User : ${uChoice}\n`;
+    computerChoiceElement.textContent = `Computer : ${computerChoice}\n`;
+
+    let userScoreElement = document.getElementById("userScore");
+    let computerScoreElement = document.getElementById("computerScore");
+
+    userScoreElement.textContent =`User score : ${userScore}\n`;
+    computerScoreElement.textContent = `Computer score: ${computerScore}\n`;
+
+
+    let winnerElement = document.getElementById("winner");
         
-        console.log(`User : ${userChoice}\nComputer : ${computerChoice}\n${winner}`);
-        console.log(`User score : ${userScore}\nComputer score: ${computerScore}`)
-
-        if (userScore >= 5 || computerScore >= 5){
-            running = false;
-        }
-
-    }
-
     if (userScore > computerScore) {
-        console.log("****User wins!****");
+        winnerElement.textContent = "User wins!";
+    } else if (userScore < computerScore) {
+        winnerElement.textContent = "Computer wins";
     } else {
-        console.log("****Computer wins****");
+        winnerElement.textContent = "Draw";
     }
+
+    
+    if (userScore === 5) {
+        winnerElement.textContent = "****User wins!****";
+    } else if (computerScore === 5) {
+        winnerElement.textContent = "****Computer wins****";
+    }
+
+    //results.append(userChoiceElement, computerChoiceElement, userScoreElement, computerScoreElement, winnerElement);
 }
+
+
+// buttons
+let buttons = document.querySelectorAll("button");
+
+buttons.forEach((button) => {
+
+    button.addEventListener("click", () => {
+        
+        console.log(game(button.getAttribute("id")));
+    })
+});
